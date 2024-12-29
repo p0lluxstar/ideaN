@@ -1,7 +1,5 @@
 import { initTRPC } from '@trpc/server';
 
-const y: number = '1';
-
 const trpc = initTRPC.create();
 
 const ideas = [
