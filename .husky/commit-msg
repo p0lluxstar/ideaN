@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Получаем текущую дату и время в формате MM-DD-YYYY HH:MM
+COMMIT_DATE=$(date +"%m-%d-%Y %H:%M")
+
+# Считываем текущее сообщение коммита
+COMMIT_MSG=$(cat "$1")
+
+# Добавляем дату в конец сообщения коммита
+echo "$COMMIT_MSG T:$COMMIT_DATE" > "$1"
