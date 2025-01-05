@@ -14,4 +14,7 @@ app.use(
     router: trpcRouter,
   })
 );
-app.listen(PORT, () => { console.log('Сервер запущен на http://localhost:3000'); });
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log('Сервер запущен на http://localhost:3000');
+});

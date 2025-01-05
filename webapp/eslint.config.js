@@ -42,14 +42,8 @@ export default tseslint.config(
         },
       ],
       curly: ['error', 'all'],
-      'no-irregular-whitespace': [
-        'error',
-        { skipTemplates: true, skipStrings: true },
-      ],
-      'no-console': [
-        'error',
-        { allow: ['info', 'error', 'warn'] },
-      ],
+      'no-irregular-whitespace': ['error', { skipTemplates: true, skipStrings: true }],
+      'no-console': ['error', { allow: ['info', 'error', 'warn'] }],
     },
   }
 );
