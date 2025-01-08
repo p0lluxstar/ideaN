@@ -1,0 +1,15 @@
+// создаем контекс призма для trpc, что бы можно было использовать призму для запросов
+
+import { PrismaClient } from '@prisma/client';
+
+export const createAppContext = () => {
+  const prisma = new PrismaClient();
+  return {
+    prisma,
+    stop: async () => {
+      await prisma.$disconnect();
+    },
+  };
+};
+
+export type AppContext = ReturnType<typeof createAppContext>;
