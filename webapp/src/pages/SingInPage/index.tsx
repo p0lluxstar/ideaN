@@ -1,16 +1,20 @@
 import { zSignInTrpcInput } from '@idean/backend/src/router/signIn/input';
 import { useFormik } from 'formik';
 import { withZodSchema } from 'formik-validator-zod';
+import Cookies from 'js-cookie';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Alert } from '../../components/Alert';
 import { Button } from '../../components/Button';
 import { FormItems } from '../../components/FormItems';
 import { Input } from '../../components/Input';
 import { Segment } from '../../components/Segment';
+import { getAllIdeasRoute } from '../../lib/rotutes';
 import { trpc } from '../../lib/trpc';
 
 export const SignInPage = () => {
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const trpcUtils = trpc.useContext();
+  const navigate = useNavigate();
   const [submittingError, setSubmittingError] = useState<string | null>(null);
   const signIn = trpc.signIn.useMutation();
   const formik = useFormik({
@@ -22,12 +26,10 @@ export const SignInPage = () => {
     onSubmit: async (values) => {
       try {
         setSubmittingError(null);
-        await signIn.mutateAsync(values);
-        formik.resetForm();
-        setSuccessMessageVisible(true);
-        setTimeout(() => {
-          setSuccessMessageVisible(false);
-        }, 3000);
+        const { token } = await signIn.mutateAsync(values);
+        Cookies.set('token', token, { expires: 9999 });
+        void trpcUtils.invalidate();
+        navigate(getAllIdeasRoute());
       } catch (error: unknown) {
         if (error instanceof Error) {
           setSubmittingError(error.message);
@@ -46,7 +48,6 @@ export const SignInPage = () => {
             <Alert color="red">Some fields are invalid</Alert>
           )}
           {submittingError && <Alert color="red">{submittingError}</Alert>}
-          {successMessageVisible && <Alert color="green">Thanks for sign in!</Alert>}
           <Button loading={formik.isSubmitting}>Sign In</Button>
         </FormItems>
       </form>
