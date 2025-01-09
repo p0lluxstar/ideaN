@@ -3,10 +3,13 @@ import { FormikProps } from 'formik';
 import css from './index.module.scss';
 
 type FormValues = {
-  name: string;
+  name?: string;
   nick: string;
-  description: string;
-  text: string;
+  description?: string;
+  text?: string;
+  password?: string;
+  passwordAgain?: string;
+  type?: string;
 };
 
 export const Input = ({
@@ -14,11 +17,14 @@ export const Input = ({
   label,
   formik,
   maxWidth,
+  type = 'text',
 }: {
   name: keyof FormValues;
   label: string;
-  formik: FormikProps<FormValues>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  formik: FormikProps<any>;
   maxWidth?: number;
+  type?: 'text' | 'password';
 }) => {
   const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
@@ -37,7 +43,7 @@ export const Input = ({
           [css.invalid]: invalid,
         })}
         style={{ maxWidth }}
-        type="text"
+        type={type}
         onChange={(e) => {
           void formik.setFieldValue(name, e.target.value);
         }}

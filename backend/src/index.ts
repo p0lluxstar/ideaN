@@ -1,6 +1,7 @@
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import cors from 'cors';
 import express from 'express';
+import { expressHandler } from 'trpc-playground/handlers/express';
 import { type AppContext, createAppContext } from './lib/ctx';
 import { trpcRouter } from './router';
 
@@ -19,6 +20,17 @@ void (async () => {
       createExpressMiddleware({
         router: trpcRouter,
         createContext: () => ctx,
+      })
+    );
+    app.use(
+      '/trpc-playground',
+      await expressHandler({
+        trpcApiEndpoint: '/trpc',
+        playgroundEndpoint: '/trpc-playground',
+        router: trpcRouter,
+        request: {
+          superjson: true,
+        },
       })
     );
     app.listen(PORT, () => {
