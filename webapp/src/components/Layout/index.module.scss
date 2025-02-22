@@ -49,6 +49,11 @@ $breakpoint: '<=900px';
     overflow: auto;
     flex: 1 1 100%;
     padding: 20px 30px;
+    background-image: url('/public/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     @include media($breakpoint) {
       overflow: visible;
       flex: 0 0 auto;

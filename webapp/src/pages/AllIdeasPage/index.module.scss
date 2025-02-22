@@ -2,13 +2,19 @@
 @import '../../styles/mixins';
 
 .ideas {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+
   .idea {
+    width: 300px;
+    height: 300px;
     padding: 20px;
     border: 1px solid $black;
     border-radius: 10px;
 
     & + .idea {
-      margin-top: 20px;
+      // margin-top: 20px;
     }
 
     .ideaLink {
